@@ -1,0 +1,144 @@
+<HTML>
+<HEAD>
+  <TITLE>Optimal Traveling Salesman Problem</TITLE>
+</HEAD>
+<BODY BGCOLOR="#f6ffff">
+<DIV style="text-align: center;">
+  <DIV style="text-align: center;">
+    <H1>
+      CSCI-261 Programming Project
+    </H1>
+    <H1>
+      Optimal Traveling Salesman Problem
+    </H1>
+    <H2>
+      Part 1 Due: Sunday September 15<SUP>th</SUP>, 2013 by 11:59:00pm
+    </H2>
+</DIV>
+</DIV>
+  
+<HR/>
+
+<H2>
+  Program Requirements
+</H2>
+Generate an optimal tour of the TSP by considering all possible permutations of cities. A tour will always begin and end with vertex 0. Compute the cost of each permutation to find the tour of least cost.
+If n <= 10 print out the list of X-Y coordinates, and the graph as an adjacency matrix of Euclidean weights. If n <= 5 print out the list of all possible paths, in lexicographic order (a path will always begin and end with a '0'). For all values of n print out the optimal distance, the optimal path, and the runtime for the algorithm.
+<P>
+
+<HR/>
+
+<H2>
+  Sample Output
+</H2>
+
+<P>Below is an example of what the output should look like, assuming the program is run with n = 5 and seed = 100000. Your output should look identical to this output, including spacing and decimal precision, but may have a different runtime value. Notice that the tours are printed in <i>lexicographic</i> order (a path will always begin and end with a '0'). You can check your output for correct formatting by saving this sample file called <a href="optimal">optimal</a>, generating your own output file by running your program, and then running the UNIX <code>diff</code> command to compare your output with the sample:
+
+<PRE>
+% java OptimalTSP 5 100000 > output
+% diff -w output optimal
+</PRE>
+
+If nothing prints to the screen after this command other than the runtimes, then your output is formatted correctly.
+
+
+<P>Your program will be tested on multiple values of n and seed not just the values shown here, so be sure to fully test your program, including all error conditions.  Note that tours always begin and end with vertex 0. Also, when you are generating x-y coordinate pairs, if the x-coordinate is not unique, discard <b>both coordinates</b> and generate a new pair. If there are multiple tours that have the same optimal value, then use the first one found in the lexicographically ordered list.
+
+<PRE>
+% java OptimalTSP 5 100000
+X-Y Coordinates:
+v0: (2,2) v1: (0,1) v2: (4,1) v3: (3,0) v4: (1,3) 
+
+Adjacency matrix of graph weights:
+
+      0      1      2      3      4
+
+0   0.00   2.24   2.24   2.24   1.41  
+
+1   2.24   0.00   4.00   3.16   2.24  
+
+2   2.24   4.00   0.00   1.41   3.61  
+
+3   2.24   3.16   1.41   0.00   3.61  
+
+4   1.41   2.24   3.61   3.61   0.00  
+
+Path: 0 1 2 3 4 0  distance = 12.67
+Path: 0 1 2 4 3 0  distance = 15.68
+Path: 0 1 3 2 4 0  distance = 11.83
+Path: 0 1 3 4 2 0  distance = 14.85
+Path: 0 1 4 2 3 0  distance = 11.73
+Path: 0 1 4 3 2 0  distance = 11.73
+Path: 0 2 1 3 4 0  distance = 14.42
+Path: 0 2 1 4 3 0  distance = 14.31
+Path: 0 2 3 1 4 0  distance = 10.46
+Path: 0 2 3 4 1 0  distance = 11.73
+Path: 0 2 4 1 3 0  distance = 13.48
+Path: 0 2 4 3 1 0  distance = 14.85
+Path: 0 3 1 2 4 0  distance = 14.42
+Path: 0 3 1 4 2 0  distance = 13.48
+Path: 0 3 2 1 4 0  distance = 11.30
+Path: 0 3 2 4 1 0  distance = 11.73
+Path: 0 3 4 1 2 0  distance = 14.31
+Path: 0 3 4 2 1 0  distance = 15.68
+Path: 0 4 1 2 3 0  distance = 11.30
+Path: 0 4 1 3 2 0  distance = 10.46
+Path: 0 4 2 1 3 0  distance = 14.42
+Path: 0 4 2 3 1 0  distance = 11.83
+Path: 0 4 3 1 2 0  distance = 14.42
+Path: 0 4 3 2 1 0  distance = 12.67
+
+Optimal distance: 10.46 for path 0 2 3 1 4 0 
+Runtime for optimal TSP   : 15 milliseconds
+</PRE>
+
+<P> Below is an example of what the output should look like for n = 13 and seed = 100000:
+
+<PRE>
+% java OptimalTSP 13 100000
+
+Optimal distance: 44.03 for path 0 7 10 2 9 6 8 4 3 12 1 5 11 0 
+Runtime for optimal TSP   : 169783 milliseconds
+
+</PRE>
+
+<P>Note the large value for runtime. The optimal program will not be tested on values of n greater than 13 (this is only the case for the optimal algorithm - all others will be tested on values greater than 13).
+  
+ Finally, use Java's <code>DecimalFormat</code> type to specify the formatting of the numeric output, as in: 
+
+<PRE>
+import java.text.*;
+
+DecimalFormat df = new DecimalFormat("0.00");
+...
+System.out.println(" distance = " + df.format(distance));
+</PRE>
+
+
+<HR/>
+
+<H2>
+  Error Conditions and Messages
+</H2>
+
+<OL>
+<LI>Missing one or both command line arguments:</LI>
+<UL><LI><CODE>Usage: java OptimalTSP n seed</CODE></LI></UL>
+<LI>One or both command line arguments is not an integer:</LI>
+<UL><LI><CODE>Command line args must be integers</CODE></LI></UL>
+<LI>Value of n is less than 1 or greater than 13:</LI>
+<UL><LI><CODE>Number of vertices must be between 1 and 13</CODE></LI></UL>
+</OL>
+
+<P>Your program should print the error message to standard output (not standard error) and terminate upon any of these error conditions. No other error condition will be tested for.
+<HR/>
+
+<H2>
+  Submission
+</H2>
+
+<P>When you have your program working, submit your source code to the MyCourses dropbox called <b>Project 1</b> before 11:59:00pm on the date given at the top of this write-up.
+
+</BODY>
+
+</HTML>
