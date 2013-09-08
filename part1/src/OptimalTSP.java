@@ -1,10 +1,14 @@
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
 class OptimalTSP {
 
   private static LinkedHashMap<Integer,Integer> vertices;
+  private static double[][] adjMtrx;
 
 	public static void main(String[] args) {
 
@@ -12,16 +16,20 @@ class OptimalTSP {
       checkErrorConditions(args);
     } catch (IllegalArgumentException e) {
       System.out.println(e.getMessage());
+      System.exit(0);
     }
 
     int n = Integer.parseInt(args[0]);
     int seed = Integer.parseInt(args[1]);
 
     generateVertices(n, seed);
+    generateAdjacencyMatrix();
 
     if (n <= 10) {
       printCoordinates();
+      printAdjacencyMatrix();
     }
+
     
 	}
 
@@ -63,6 +71,43 @@ class OptimalTSP {
     }
   }
 
+  private static void generateAdjacencyMatrix() {
+
+    List<Map.Entry<Integer, Integer>> entries =
+      new ArrayList<Map.Entry<Integer, Integer>>(vertices.entrySet());
+    adjMtrx = new double[entries.size()][entries.size()];
+
+    for (int x = 0; x < entries.size(); x++) {
+      for (int y = 0; y < entries.size(); y++) {
+        adjMtrx[x][y] = calculateVertexDistance(entries.get(x), entries.get(y));
+        adjMtrx[y][x] = adjMtrx[x][y];
+      }
+    }
+  }
+
+  private static Double calculateVertexDistance(Map.Entry<Integer,Integer> v1, Map.Entry<Integer,Integer> v2) {
+    
+    int x1 = v1.getKey();
+    int x2 = v2.getKey();
+    int y1 = v1.getValue();
+    int y2 = v2.getValue();
+
+    return Math.sqrt(Math.pow(x2-x1, 2) + Math.pow(y2-y1, 2)) ; 
+  }
+
+  private static void printAdjacencyMatrix() {
+
+    System.out.println("Adjacency matrix of graph weights:\n");
+
+    DecimalFormat df = new DecimalFormat("0.00");
+    for (double[] row : adjMtrx) {
+      for (double distance : row) {
+        System.out.printf("%s\t", df.format(distance));
+      }
+      System.out.println("\n");
+    }
+  }
+
   private static void printCoordinates() {
 
     System.out.println("X-Y Coordinates:");
@@ -73,6 +118,6 @@ class OptimalTSP {
       index++;
     }
 
-    System.out.println();
+    System.out.println("\n");
   }
 }
