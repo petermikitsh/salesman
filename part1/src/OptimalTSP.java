@@ -1,8 +1,6 @@
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Random;
-import java.util.Set;
 
 class OptimalTSP {
 
@@ -16,8 +14,14 @@ class OptimalTSP {
       System.out.println(e.getMessage());
     }
 
-    generateVertices(args);
-    printVertices();
+    int n = Integer.parseInt(args[0]);
+    int seed = Integer.parseInt(args[1]);
+
+    generateVertices(n, seed);
+
+    if (n <= 10) {
+      printCoordinates();
+    }
     
 	}
 
@@ -41,10 +45,8 @@ class OptimalTSP {
     }
   }
 
-  private static void generateVertices(String[] args) {
+  private static void generateVertices(int n, int seed) {
     
-    int n = Integer.parseInt(args[0]);
-    int seed = Integer.parseInt(args[1]);
     Random randomX = new Random(seed);
     Random randomY = new Random(seed*2);
     vertices = new LinkedHashMap<Integer,Integer>(n);
@@ -61,7 +63,7 @@ class OptimalTSP {
     }
   }
 
-  private static void printVertices() {
+  private static void printCoordinates() {
 
     System.out.println("X-Y Coordinates:");
 
