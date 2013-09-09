@@ -21,6 +21,8 @@ class OptimalTSP {
       System.exit(0);
     }
 
+    long startTime = System.currentTimeMillis();
+
     int n = Integer.parseInt(args[0]);
     int seed = Integer.parseInt(args[1]);
 
@@ -34,6 +36,10 @@ class OptimalTSP {
     }
 
     findAndPrintPermutations(n);
+
+    long endTime = System.currentTimeMillis();
+    long totalTime = endTime - startTime;
+    printRuntime(totalTime);
     
 	}
 
@@ -178,6 +184,10 @@ class OptimalTSP {
     }
     return result;
 
+  }
+
+  private static void printRuntime(long time) {
+    System.out.printf("Runtime for optimal TSP   : %s milliseconds\n", time);
   }
 
 }
