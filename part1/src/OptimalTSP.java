@@ -97,11 +97,18 @@ class OptimalTSP {
 
   private static void printAdjacencyMatrix() {
 
-    System.out.println("Adjacency matrix of graph weights:\n");
+    System.out.printf("Adjacency matrix of graph weights:\n\n\t");
+
+    int i;
+    for (i = 0; i < adjMtrx.length; i++) {
+      System.out.printf("  %d\t", i);
+    }
+    System.out.println("\n");
 
     DecimalFormat df = new DecimalFormat("0.00");
-    for (double[] row : adjMtrx) {
-      for (double distance : row) {
+    for (i = 0; i < adjMtrx.length; i++) {
+      System.out.printf("%d\t", i);
+      for (double distance : adjMtrx[i]) {
         System.out.printf("%s\t", df.format(distance));
       }
       System.out.println("\n");
