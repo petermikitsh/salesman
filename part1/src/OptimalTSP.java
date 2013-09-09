@@ -9,6 +9,7 @@ class OptimalTSP {
 
   private static LinkedHashMap<Integer,Integer> vertices;
   private static double[][] adjMtrx;
+  private static ArrayList<ArrayList<Integer>> permutations;
 
 	public static void main(String[] args) {
 
@@ -24,10 +25,13 @@ class OptimalTSP {
 
     generateVertices(n, seed);
     generateAdjacencyMatrix();
+    generatePermutations(n);
 
     if (n <= 10) {
       printCoordinates();
       printAdjacencyMatrix();
+      if (n <= 5)
+        printPermutations();
     }
 
     
@@ -127,4 +131,27 @@ class OptimalTSP {
 
     System.out.println("\n");
   }
+
+  private static void generatePermutations(int n) {
+
+    ArrayList<Integer> ascending = new ArrayList<Integer>();
+    for (int i = 1; i < n; i++) {
+      ascending.add(i);
+    }
+    permutations = Permutation.makePermutations(ascending);
+
+  }
+
+  private static void printPermutations() {
+
+    for (ArrayList<Integer> permutation : permutations) {
+      System.out.printf("Path: ");
+      for (Integer vertex : permutation) {
+        System.out.printf("%d ", vertex);
+      }
+      System.out.printf("  distance = %d\n", 0);
+    }
+    
+  }
+
 }
