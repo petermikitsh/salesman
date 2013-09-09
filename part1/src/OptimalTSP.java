@@ -10,6 +10,7 @@ class OptimalTSP {
   private static LinkedHashMap<Integer,Integer> vertices;
   private static double[][] adjMtrx;
   private static ArrayList<ArrayList<Integer>> permutations;
+  private static DecimalFormat df = new DecimalFormat("0.00");
 
 	public static void main(String[] args) {
 
@@ -109,7 +110,6 @@ class OptimalTSP {
     }
     System.out.println("\n");
 
-    DecimalFormat df = new DecimalFormat("0.00");
     for (i = 0; i < adjMtrx.length; i++) {
       System.out.printf("%d\t", i);
       for (double distance : adjMtrx[i]) {
@@ -149,9 +149,19 @@ class OptimalTSP {
       for (Integer vertex : permutation) {
         System.out.printf("%d ", vertex);
       }
-      System.out.printf("  distance = %d\n", 0);
+      System.out.printf("  distance = %s\n", df.format(calculateDistance(permutation)));
     }
-    
+
+  }
+
+  private static double calculateDistance(ArrayList<Integer> trip) {
+
+    double result = 0;
+    for (int i = 0; i < trip.size() - 1; i++) {
+      result += adjMtrx[trip.get(i)][trip.get(i+1)];
+    }
+    return result;
+
   }
 
 }
