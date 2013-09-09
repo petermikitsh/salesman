@@ -31,10 +31,9 @@ class OptimalTSP {
     if (n <= 10) {
       printCoordinates();
       printAdjacencyMatrix();
-      if (n <= 5)
-        printPermutations();
     }
 
+    findAndPrintPermutations(n);
     
 	}
 
@@ -142,16 +141,33 @@ class OptimalTSP {
 
   }
 
-  private static void printPermutations() {
+  private static void findAndPrintPermutations(int n) {
+
+    ArrayList<Integer> bestPermutation = new ArrayList<Integer>();
+    double bestDistance = Double.MAX_VALUE;
 
     for (ArrayList<Integer> permutation : permutations) {
-      System.out.printf("Path: ");
-      for (Integer vertex : permutation) {
-        System.out.printf("%d ", vertex);
+      double currDistance = calculateDistance(permutation);
+
+      if (n <= 5)
+        System.out.printf("Path: %s  distance = %s\n", printPermutation(permutation), df.format(currDistance));
+
+      if (currDistance < bestDistance) {
+        bestDistance = currDistance;
+        bestPermutation = permutation;
       }
-      System.out.printf("  distance = %s\n", df.format(calculateDistance(permutation)));
     }
 
+    System.out.printf("\nOptimal distance: %s for path %s\n", df.format(bestDistance), printPermutation(bestPermutation));
+
+  }
+
+  private static String printPermutation(ArrayList<Integer> array) {
+    String result = "";
+    for (Integer vertex : array) {
+      result += String.format("%d ", vertex);
+    }
+    return result;
   }
 
   private static double calculateDistance(ArrayList<Integer> trip) {
