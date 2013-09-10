@@ -1,36 +1,46 @@
 import java.util.ArrayList;
+import java.util.Collections;
 
-class Permutation {
+public class Permutation {
 
+  protected static ArrayList<Integer> nextPermutation(ArrayList<Integer> permutation) {
 
-  protected static ArrayList<ArrayList<Integer>> makePermutations(ArrayList<Integer> array) {
-    return permutation(new ArrayList<Integer>(), array);
+      int i = findAscendingPairIndex(permutation);
+      if (i == -1) 
+        return null;
+
+      Collections.swap(permutation, i, findRightIndex(permutation, i));
+      Collections.sort(permutation.subList(i+1, permutation.size()));
+
+      return permutation;
   }
 
-  private static ArrayList<ArrayList<Integer>> permutation(ArrayList<Integer> prefix, ArrayList<Integer> suffix) {
+  private static int findAscendingPairIndex(ArrayList<Integer> list) {
 
-    ArrayList<ArrayList<Integer>> result = new ArrayList<ArrayList<Integer>>();
+    int i;
 
-    int n = suffix.size();
-
-    if (n == 0) {
-      prefix.add(0, 0);
-      prefix.add(0);
-      result.add(prefix);
-      return result;
-    }
-
-    else {
-      for (int i = 0; i < n; i++) {
-        ArrayList<Integer> prefixcopy = new ArrayList<Integer>(prefix);
-        ArrayList<Integer> suffixcopy = new ArrayList<Integer>(suffix);
-        prefixcopy.add(suffix.get(i));
-        suffixcopy.remove(i);
-        result.addAll(permutation(prefixcopy, suffixcopy));
+    for (i = list.size() - 2; i >= 0; i--) {
+      if (list.get(i) < list.get(i+1)) {
+        break;
       }
-      return result;
     }
-    
+
+    return i;
+  }
+
+  private static int findRightIndex(ArrayList<Integer> permutation, int index) {
+
+    int smallIndex = permutation.size()-1;
+    int smallValue = permutation.size();
+
+    for (int currIndex = index + 1; currIndex < permutation.size(); currIndex++) {
+      if ( permutation.get(currIndex) > permutation.get(index) && permutation.get(currIndex) <= smallValue  ) {
+        smallIndex = currIndex;
+        smallValue = permutation.get(currIndex);
+      }
+    }
+
+    return smallIndex;
   }
 
 }

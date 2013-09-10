@@ -9,8 +9,9 @@ class OptimalTSP {
 
   private static LinkedHashMap<Integer,Integer> vertices;
   private static double[][] adjMtrx;
-  private static ArrayList<ArrayList<Integer>> permutations;
   private static DecimalFormat df = new DecimalFormat("0.00");
+  private static ArrayList<Integer> shortestPath = new ArrayList<Integer>();
+  private static double shortestDistance = Double.MAX_VALUE;
 
 	public static void main(String[] args) {
 
@@ -28,17 +29,17 @@ class OptimalTSP {
 
     generateVertices(n, seed);
     generateAdjacencyMatrix();
-    generatePermutations(n);
 
     if (n <= 10) {
       printCoordinates();
       printAdjacencyMatrix();
     }
 
-    findAndPrintPermutations(n);
+    generatePermutations(n);
+    printOptimalPermutation(n);
 
-    long endTime = System.currentTimeMillis();
-    long totalTime = endTime - startTime;
+    long totalTime = System.currentTimeMillis() - startTime;
+
     printRuntime(totalTime);
     
 	}
@@ -139,36 +140,41 @@ class OptimalTSP {
 
   private static void generatePermutations(int n) {
 
-    ArrayList<Integer> ascending = new ArrayList<Integer>();
+    ArrayList<Integer> list = new ArrayList<Integer>();
     for (int i = 1; i < n; i++) {
-      ascending.add(i);
+      list.add(i);
     }
-    permutations = Permutation.makePermutations(ascending);
 
-  }
-
-  private static void findAndPrintPermutations(int n) {
-
-    ArrayList<Integer> bestPermutation = new ArrayList<Integer>();
-    double bestDistance = Double.MAX_VALUE;
-
-    for (ArrayList<Integer> permutation : permutations) {
-      double currDistance = calculateDistance(permutation);
+    while( list != null ) {
+      double currDistance = calculateDistance(list);
 
       if (n <= 5)
-        System.out.printf("Path: %s  distance = %s\n", printPermutation(permutation), df.format(currDistance));
+        System.out.printf("Path: %s  distance = %s\n",
+          printPermutation(list), df.format(currDistance));
 
-      if (currDistance < bestDistance) {
-        bestDistance = currDistance;
-        bestPermutation = permutation;
+      if (currDistance < shortestDistance) {
+        shortestDistance = currDistance;
+        shortestPath = new ArrayList<Integer>(list);
       }
-    }
 
-    System.out.printf("\nOptimal distance: %s for path %s\n", df.format(bestDistance), printPermutation(bestPermutation));
+      list = Permutation.nextPermutation(list);
+    }
+  }
+
+  private static void printOptimalPermutation(int n) {
+
+    System.out.printf("\nOptimal distance: %s for path %s\n",
+      df.format(shortestDistance), printPermutation(shortestPath));
 
   }
 
-  private static String printPermutation(ArrayList<Integer> array) {
+  private static String printPermutation(ArrayList<Integer> list) {
+
+    List<Integer> array = new ArrayList<Integer>(list);
+
+    array.add(0,0);
+    array.add(0);
+
     String result = "";
     for (Integer vertex : array) {
       result += String.format("%d ", vertex);
@@ -176,7 +182,12 @@ class OptimalTSP {
     return result;
   }
 
-  private static double calculateDistance(ArrayList<Integer> trip) {
+  private static double calculateDistance(ArrayList<Integer> list) {
+
+    List<Integer> trip = new ArrayList<Integer>(list);
+
+    trip.add(0,0);
+    trip.add(0);
 
     double result = 0;
     for (int i = 0; i < trip.size() - 1; i++) {
