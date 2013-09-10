@@ -6,7 +6,8 @@ public class Permutation {
   protected static ArrayList<Integer> nextPermutation(ArrayList<Integer> permutation) {
 
       int i = findAscendingPairIndex(permutation);
-      if (i == -1) 
+      
+      if (i == -1 || permutation.size() == 0) 
         return null;
 
       Collections.swap(permutation, i, findRightIndex(permutation, i));
