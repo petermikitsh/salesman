@@ -1,4 +1,3 @@
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -9,76 +8,76 @@ class OptimalTSP {
 
   private static LinkedHashMap<Integer,Integer> vertices;
   private static double[][] adjMtrx;
-  private static DecimalFormat df = new DecimalFormat("0.00");
-  private static ArrayList<Integer> shortestPath = new ArrayList<Integer>();
-  private static double shortestDistance = Double.MAX_VALUE;
+  private static Logger logger;
+  private static int n;
+  private static int seed;
 
 	public static void main(String[] args) {
 
-    try {
-      checkErrorConditions(args);
-    } catch (IllegalArgumentException e) {
-      System.out.println(e.getMessage());
-      System.exit(0);
-    }
+    checkErrorConditions(args);    
 
+    n = (int) Integer.parseInt(args[0]);
+    seed = (int) Integer.parseInt(args[1]);
+    logger = new Logger(n);
+    vertices = new LinkedHashMap<Integer,Integer>(n);
     long startTime = System.currentTimeMillis();
 
-    int n = Integer.parseInt(args[0]);
-    int seed = Integer.parseInt(args[1]);
-
-    generateVertices(n, seed);
+    generateVertices();
     generateAdjacencyMatrix();
 
-    if (n <= 10) {
-      printCoordinates();
-      printAdjacencyMatrix();
-    }
+    logger.logCoordinates(vertices);
+    logger.logAdjacencyMatrix(adjMtrx);
 
-    generatePermutations(n);
-    printOptimalPermutation(n);
+    generatePermutations();
 
-    long totalTime = System.currentTimeMillis() - startTime;
-
-    printRuntime(totalTime);
+    logger.logRuntime(System.currentTimeMillis() - startTime);
     
 	}
 
-  private static void checkErrorConditions(String[] args) throws IllegalArgumentException {
+  private static void checkErrorConditions(String[] args) {
 
-    if (args.length != 2) {
-      throw new IllegalArgumentException("Usage: java OptimalTSP n seed");
-    }
+    try {
 
-    for (int i = 0; i < 2; i++) {
-      try {
-        Integer.parseInt(args[i]);
-      } catch (NumberFormatException e) {
-        throw new IllegalArgumentException("Command line args must be integers");
+      if (args.length != 2) {
+        throw new IllegalArgumentException("Usage: java OptimalTSP n seed");
       }
-    }
 
-    Integer n = Integer.parseInt(args[0]);
-    if (n < 1 || n > 13) {
-      throw new IllegalArgumentException("Number of vertices must be between 1 and 13");
+      for (int i = 0; i < 2; i++) {
+        try {
+          Integer.parseInt(args[i]);
+        } catch (NumberFormatException e) {
+          throw new IllegalArgumentException("Command line args must be integers");
+        }
+      }
+
+      n = (int) Integer.parseInt(args[0]);
+      if (n < 1 || n > 13) {
+        throw new IllegalArgumentException("Number of vertices must be between 1 and 13");
+      }
+
+    } catch (IllegalArgumentException e) {
+
+      System.out.println(e.getMessage());
+      System.exit(0);
+
     }
   }
 
-  private static void generateVertices(int n, int seed) {
+  private static void generateVertices() {
     
     Random randomX = new Random(seed);
     Random randomY = new Random(seed*2);
-    vertices = new LinkedHashMap<Integer,Integer>(n);
 
     while (vertices.size() < n) {
+
       int x = randomX.nextInt(n);
       int y = randomY.nextInt(n);
 
-      if (vertices.containsKey(x)) {
+      if (vertices.containsKey(x))
         continue;
-      } else {
+      else
         vertices.put(x, y);
-      }
+      
     }
   }
 
@@ -103,54 +102,25 @@ class OptimalTSP {
     int y1 = v1.getValue();
     int y2 = v2.getValue();
 
-    return Math.sqrt(Math.pow(x2-x1, 2) + Math.pow(y2-y1, 2)) ; 
+    return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2)) ; 
   }
 
-  private static void printAdjacencyMatrix() {
 
-    System.out.printf("Adjacency matrix of graph weights:\n\n\t");
-
-    int i;
-    for (i = 0; i < adjMtrx.length; i++) {
-      System.out.printf("  %d\t", i);
-    }
-    System.out.println("\n");
-
-    for (i = 0; i < adjMtrx.length; i++) {
-      System.out.printf("%d\t", i);
-      for (double distance : adjMtrx[i]) {
-        System.out.printf("%s\t", df.format(distance));
-      }
-      System.out.println("\n");
-    }
-  }
-
-  private static void printCoordinates() {
-
-    System.out.println("X-Y Coordinates:");
-
-    int index = 0;
-    for (Map.Entry<Integer, Integer> entry : vertices.entrySet()) {
-      System.out.format("v%d: (%d,%d) ", index, entry.getKey(), entry.getValue());
-      index++;
-    }
-
-    System.out.println("\n");
-  }
-
-  private static void generatePermutations(int n) {
+  private static void generatePermutations() {
 
     ArrayList<Integer> list = new ArrayList<Integer>();
+
     for (int i = 1; i < n; i++) {
       list.add(i);
     }
 
-    while( list != null ) {
-      double currDistance = calculateDistance(list);
+    ArrayList<Integer> shortestPath = new ArrayList<Integer>();
+    double shortestDistance = Double.MAX_VALUE;
 
-      if (n <= 5)
-        System.out.printf("Path: %s  distance = %s\n",
-          printPermutation(list), df.format(currDistance));
+    while( list != null ) {
+
+      double currDistance = calculateDistance(list);
+      logger.logPermutation(list, currDistance);
 
       if (currDistance < shortestDistance) {
         shortestDistance = currDistance;
@@ -159,35 +129,13 @@ class OptimalTSP {
 
       list = Permutation.nextPermutation(list);
     }
-  }
 
-  private static void printOptimalPermutation(int n) {
-
-    System.out.printf("\nOptimal distance: %s for path %s\n",
-      df.format(shortestDistance), printPermutation(shortestPath));
-
-  }
-
-  private static String printPermutation(ArrayList<Integer> list) {
-
-    List<Integer> array = new ArrayList<Integer>(list);
-
-    array.add(0,0);
-    array.add(0);
-
-    String result = "";
-    for (Integer vertex : array) {
-      result += String.format("%d ", vertex);
-    }
-    return result;
+    logger.logOptimalPath(shortestDistance, shortestPath);
   }
 
   private static double calculateDistance(ArrayList<Integer> list) {
 
-    List<Integer> trip = new ArrayList<Integer>(list);
-
-    trip.add(0,0);
-    trip.add(0);
+    ArrayList<Integer> trip = addVertices(list);
 
     double result = 0;
     for (int i = 0; i < trip.size() - 1; i++) {
@@ -197,8 +145,14 @@ class OptimalTSP {
 
   }
 
-  private static void printRuntime(long time) {
-    System.out.printf("Runtime for optimal TSP   : %s milliseconds\n", time);
+  protected static ArrayList<Integer> addVertices(ArrayList<Integer> trip) {
+
+    ArrayList<Integer> list = new ArrayList<Integer>(trip);
+
+    list.add(0,0);
+    list.add(0);
+
+    return list;
   }
 
 }
