@@ -1,0 +1,127 @@
+<HTML>
+<HEAD>
+  <TITLE>Greedy Traveling Salesman Problem</TITLE>
+</HEAD>
+<BODY BGCOLOR="#f6ffff">
+<DIV style="text-align: center;">
+  <DIV style="text-align: center;">
+    <H1>
+      CSCI-261 Programming Project
+    </H1>
+    <H1>
+      Greedy Traveling Salesman Problem
+    </H1>
+    <H2>
+      Part 2 Due: Sunday, October 13<SUP>th</SUP>, 2013 by 11:59:00pm
+    </H2>
+</DIV>
+</DIV>
+  
+<HR/>
+
+<H2>
+  Program Requirements
+</H2>
+<P>Generate an approximately optimal tour by continually choosing an edge that has the lowest cost of those edges that remain, with restrictions as noted below. Compute the cost of the approximate tour. If n <= 10 print out the list of X-Y coordinates, the original graph as an adjacency matrix of Euclidean weights, the graph of greedy weights on the tour (this is a sub-graph of the original graph), and a list of the edges from the greedy graph that were used to compute the greedy tour. For all values of n print out the total greedy distance, the greedy tour, and the runtime for the algorithm.
+
+<P>For this implementation, you must sort the edges of the graph using <b>quicksort</b>. If two or more egdes have the same weight, then the sort will be in order of increasing left vertex (row number in the adjacency matrix). If two or more edges have the same weight and the same left vertex, then the sort will be in order of increasing right vertex (column number in the adjacency matrix). You must write your own implementation of quicksort, not rely on the built-in Java library routine. Then, assuming that the edges are sorted in order of increasing cost, keep choosing an edge with the lowest cost, provided a cycle is not formed (unless it is the last edge chosen) and the chosen edge is not the third edge from any vertex. For cycle checking, you must use the <b>union-find</b> algorithm with <b>path compression</b>. 
+
+<P>When n edges have been chosen, you will end up with a graph which will consist of a subset of the edges from the original graph. You can perform a depth-first traversal of this graph beginning at vertex 0 to build up the tour. If there is a choice of vertices to choose from during the depth-first search, choose in numerical order. If you would like, you may construct the greedy graph "manually", i.e., your Graph data structure might allow for setting X- and Y-coordinates, as well as setting edge weights (which can be extracted from the original graph). If you modify your Graph data structure for this part of the project, it must still work correctly with the other parts of this project. In any case, you must re-submit your Graph data structure, as well as all other classes that your GreedyTSP class uses.
+<HR/>
+
+<H2>  
+  Sample Output
+</H2>
+
+<P>Below is an example of what the output should look like, assuming the program is run with n = 5 and seed = 100000. Your output should look identical to this output, including spacing and decimal precision, but your runtime value may be different.  You can check your output for correct formatting by saving this sample <a href="greedy">output file</a>, generating your own output file by running your program, and then running the UNIX <code>diff</code> command to compare your output with the sample:
+
+<PRE>
+% java GreedyTSP 5 100000 > output
+% diff -w output greedy
+</PRE>
+
+If nothing prints to the screen after this command other than the runtimes, then your output is formatted correctly.
+
+<P>Note that your program will be tested on multiple values of n and seed not just the values shown here, so be sure to fully test your program, including all error conditions.  Note also that tours always begin and end with vertex 0.  
+<PRE>
+% java GreedyTSP 5 100000
+X-Y Coordinates:
+v0: (2,2) v1: (0,1) v2: (4,1) v3: (3,0) v4: (1,3) 
+
+Adjacency matrix of graph weights:
+
+      0      1      2      3      4
+
+0   0.00   2.24   2.24   2.24   1.41  
+
+1   2.24   0.00   4.00   3.16   2.24  
+
+2   2.24   4.00   0.00   1.41   3.61  
+
+3   2.24   3.16   1.41   0.00   3.61  
+
+4   1.41   2.24   3.61   3.61   0.00  
+
+Greedy graph:
+Adjacency matrix of graph weights:
+
+      0      1      2      3      4
+
+0   0.00   2.24   0.00   0.00   1.41  
+
+1   2.24   0.00   0.00   3.16   0.00  
+
+2   0.00   0.00   0.00   1.41   3.61  
+
+3   0.00   3.16   1.41   0.00   0.00  
+
+4   1.41   0.00   3.61   0.00   0.00  
+
+Edges of tour from greedy graph:
+0 4 weight = 1.41
+2 3 weight = 1.41
+0 1 weight = 2.24
+1 3 weight = 3.16
+2 4 weight = 3.61
+
+Distance using greedy: 11.83 for path 0 1 3 2 4 0 
+Runtime for greedy TSP   : 0 milliseconds
+
+</PRE>
+<P> Below is an example of what the output should look like for n = 13 and seed = 100000:                                                                            
+            
+<PRE>
+% java GreedyTSP 13 100000
+
+Distance using greedy: 50.00 for path 0 7 10 2 9 6 8 4 5 12 3 1 11 0 
+Runtime for greedy TSP   : 1 milliseconds
+
+</PRE>
+<HR/>
+
+<H2>
+  Error Conditions and Messages
+</H2>
+
+<OL>                                                                           
+<LI>Missing one or both command line arguments:</LI>                           
+<UL><LI><CODE>Usage: java GreedyTSP n seed</CODE></LI></UL>    
+<LI>One or both command line arguments is not an integer:</LI>                 
+<UL><LI><CODE>Command line args must be integers</CODE></LI></UL>              
+<LI>Value of n is less than 1:</LI>                         
+<UL><LI><CODE>Number of vertices must be greater than 0</CODE></LI></UL>    
+</OL>                                                                         
+                                                                              
+<P>Your program should print the error message to standard output (not standard error) and terminate upon any of these error conditions. No other error condition will be tested for.   
+
+<HR/>
+
+<H2>
+  Submission
+</H2>
+
+<P>When you have your program working, submit your source code to the MyCourses dropbox called <b>Project 2</b> before 11:59:00pm on the date given at the top of this write-up.
+
+</BODY>
+
+</HTML>
