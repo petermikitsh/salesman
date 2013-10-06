@@ -6,16 +6,16 @@ import java.util.List;
 class Edge implements Comparable<Edge> {
 	public int row;
 	public int column;
-	public double weight;
+	public Graph g;
 
-	public Edge (int row, int column, double weight) {
+	public Edge (int row, int column, Graph g) {
 		this.row = row;
 		this.column = column;
-		this.weight = weight;
+		this.g = g;
 	}
 
 	public int compareTo(Edge that) {
-        int value1 = Double.compare(this.weight, that.weight);
+        int value1 = Double.compare(g.getWeight(row,column), that.g.getWeight(that.row,that.column));
         if (value1 == 0) {
             int value2 = this.row - that.row;
             if (value2 == 0) {

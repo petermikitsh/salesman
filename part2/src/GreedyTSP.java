@@ -7,7 +7,8 @@ import java.util.Random;
 class GreedyTSP {
 
   private static LinkedHashMap<Integer,Integer> vertices;
-  private static double[][] adjMtrx;
+  private static Graph gInitial;
+  private static Graph gGreedy;
   private static Logger logger;
   private static int n;
   private static int seed;
@@ -18,13 +19,16 @@ class GreedyTSP {
     n = (int) Integer.parseInt(args[0]);
     seed = (int) Integer.parseInt(args[1]);
     vertices = new LinkedHashMap<Integer,Integer>(n);
+    gInitial = new Graph(n);
     long startTime = System.currentTimeMillis();
 
     generateVertices();
     generateAdjacencyMatrix();
+    generateEdges();
+    greedyAlgorithm();
 
     logger.logCoordinates(vertices);
-    logger.logAdjacencyMatrix(adjMtrx);
+    logger.logAdjacencyMatrix(gInitial.getMatrix());
 
     logger.logRuntime(System.currentTimeMillis() - startTime);
     
@@ -52,12 +56,20 @@ class GreedyTSP {
 
     List<Map.Entry<Integer, Integer>> entries =
       new ArrayList<Map.Entry<Integer, Integer>>(vertices.entrySet());
-    adjMtrx = new double[entries.size()][entries.size()];
 
     for (int x = 0; x < entries.size(); x++) {
       for (int y = 0; y < entries.size(); y++) {
-        adjMtrx[x][y] = calculateVertexDistance(entries.get(x), entries.get(y));
-        adjMtrx[y][x] = adjMtrx[x][y];
+        double weight = calculateVertexDistance(entries.get(x), entries.get(y));
+        gInitial.addEdgeWeight(x, y, weight);
+        gInitial.addEdgeWeight(y, x, weight);
+      }
+    }
+  }
+
+  private static void generateEdges() {
+    for (int row = 0; row <= n-1; row++) {
+      for (int column = 0; column <= row-1; column++) {
+        gInitial.addEdge(row, column);
       }
     }
   }
@@ -79,7 +91,7 @@ class GreedyTSP {
 
     double result = 0;
     for (int i = 0; i < trip.size() - 1; i++) {
-      result += adjMtrx[trip.get(i)][trip.get(i+1)];
+      result += gInitial.getMatrix()[trip.get(i)][trip.get(i+1)];
     }
     return result;
 
