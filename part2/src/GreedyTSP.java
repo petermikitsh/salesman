@@ -4,6 +4,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+/* GreedyTSP.java
+
+   author: Peter Mikitsh pam3961
+*/
 class GreedyTSP {
 
   private static LinkedHashMap<Integer,Integer> vertices;

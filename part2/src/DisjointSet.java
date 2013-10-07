@@ -2,6 +2,8 @@
    Roots of sets are negative integers; with the absolute value representing
    the height of the tree. If the value is positive, then the node's parent is
    located at the index value.
+
+   author: Peter Mikitsh pam3961
 */
 class DisjointSet {
 

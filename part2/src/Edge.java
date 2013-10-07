@@ -3,7 +3,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /* Edge data structure. Implements Comparable for sorting edges,
-   as defined by the Project 2 specification. */
+   as defined by the Project 2 specification.
+
+   author: Peter Mikitsh pam3961
+*/
 class Edge implements Comparable<Edge> {
 	public int row;
 	public int column;

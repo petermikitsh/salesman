@@ -2,7 +2,10 @@ import java.util.List;
 import java.util.ArrayList;
 
 /* Graph data structure. Uses an adjacency matrix to store edge weights,
-   and maintains a list of edges for distance calculation. */
+   and maintains a list of edges for distance calculation.
+
+   author: Peter Mikitsh pam3961
+*/
 class Graph {
 
 	private double[][] adjMatrix;

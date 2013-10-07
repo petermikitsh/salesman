@@ -1,7 +1,10 @@
 import java.util.List;
 import java.util.ArrayList;
 
-/* Quicksort Algorithm. */
+/* Quicksort Algorithm.
+
+   author: Peter Mikitsh pam3961
+*/
 class Quicksort {
 
 	/* Return arrays of size <= 1 (sorted). Else, pivot at the middle of the
