@@ -1,17 +1,21 @@
 import java.util.List;
 import java.util.ArrayList;
 
+/* Graph data structure. Uses an adjacency matrix to store edge weights,
+   and maintains a list of edges for distance calculation. */
 class Graph {
 
 	private double[][] adjMatrix;
 	private boolean[] visited;
 	private List<Edge> edges;
 
+	/* Initializes the Graph with an adjacency matrix of size n. */
 	public Graph(int n) {
 		adjMatrix = new double[n][n];
 		edges = new ArrayList<Edge>();
 	}
 
+	/* Updates both sides of the adjacency matrix to store weight state. */
 	public void addEdgeWeight(int row, int col, double weight) {
 		adjMatrix[row][col] = weight;
 		adjMatrix[col][row] = weight;
@@ -64,14 +68,15 @@ class Graph {
 		return count >= 2;
 	}
 
-	/* Determines if the last edge is being added to the graph */
-	public boolean notLastEdge() {
-		return getEdgeCount() + 1 < adjMatrix.length;
+	/* Determines if the last edge is being added to the graph. */
+	public boolean lastEdge() {
+		return getEdgeCount() + 1 >= adjMatrix.length;
 	}
 
 	/* Helper DFS function (client interface) that:
-		- initializes the visited matrix
-		- starts the traversal at node 0
+		- Initializes the visited matrix.
+		- Starts the traversal at node 0.
+		- Adds the starting and ending node to returned list.
 	*/
 	public List<Integer> dfsTraversal() {
 		visited = new boolean[adjMatrix.length];
@@ -96,23 +101,13 @@ class Graph {
 		return traversal;
 	}
 
-
-	/* Helper function DFS */
-	public List<Integer> neighbors(int node) {
-		List<Integer> l = new ArrayList<Integer>();
-
-		return l;
-	}
-
 	/* Find total distance of edge list */
 	public double calculateDistance() {
-
 	    double result = 0;
 	    for (Edge e : edges) {
 	      result += e.getWeight();
 	    }
 	    return result;
-
   	}
 
 }

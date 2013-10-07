@@ -13,6 +13,10 @@ class GreedyTSP {
   private static int n;
   private static int seed;
 
+  /* - Initialize data structures for use.
+     - Times the execution of the greedy algorithm.
+     - Passes the results to the logger.
+  */
 	public static void main(String[] args) {
 
     logger = new Logger(args);
@@ -39,6 +43,7 @@ class GreedyTSP {
     
 	}
 
+  /* Generate Cartesian points for vertices, per Part 1 specifications. */
   private static void generateVertices() {
     
     Random randomX = new Random(seed);
@@ -57,6 +62,7 @@ class GreedyTSP {
     }
   }
 
+  /* Fills in the Graph's adjacency matrix with appropriate weights. */
   private static void generateAdjacencyMatrix() {
 
     List<Map.Entry<Integer, Integer>> entries =
@@ -70,6 +76,7 @@ class GreedyTSP {
     }
   }
 
+  /* Store the edges in an array, to make my life simpler. */
   private static void generateEdges() {
     for (int row = 0; row <= n-1; row++) {
       for (int column = 0; column <= row-1; column++) {
@@ -78,26 +85,26 @@ class GreedyTSP {
     }
   }
 
+  /* Performs a greedy, approximately optimal tour. */
   public static void greedyAlgorithm() {
 
     List<Edge> edges = Quicksort.quicksort(gInitial.getEdges());
     DisjointSet set = new DisjointSet(n);
 
     for (Edge e : edges) {
-      // break if enough edges have been picked
+      // Break if enough edges have been picked.
       if (gGreedy.getEdgeCount() >= n) {
         break;
       } else {
         int r1 = set.find(e.row);
         int r2 = set.find(e.column);
-        // if adding this edge will exceed the degree count for vertices, skip this edge
-        if (gGreedy.tooManyDegrees(e.row, e.column)) {
-          continue;
-        // if this is not the last edge to add, check if adding it will introduce a cycle
-        } else if (gGreedy.notLastEdge() && DisjointSet.introduceCycle(r1, r2)) {
-          continue;
-        }
-        else {
+        // Skip if adding this edge will exceed the degree count for vertices -or-
+        // if this is not the last edge to add, and adding it will introduce a cycle.
+        if (gGreedy.tooManyDegrees(e.row, e.column) ||
+            !gGreedy.lastEdge() && DisjointSet.introduceCycle(r1, r2)) {
+            continue;
+        } else {
+        // Union the subtrees and update the greedy graph.
           set.union(r1, r2);
           gGreedy.addEdge(e);
           gGreedy.addEdgeWeight(e.row, e.column, gInitial.getWeight(e.row, e.column));
@@ -105,7 +112,8 @@ class GreedyTSP {
       }
     }
   }
-  
+
+  /* Use the distance formula to find the distance between to Cartesian points (vertices) */
   private static Double calculateVertexDistance(Map.Entry<Integer,Integer> v1, Map.Entry<Integer,Integer> v2) {
     
     int x1 = v1.getKey();

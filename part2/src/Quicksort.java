@@ -1,8 +1,14 @@
 import java.util.List;
 import java.util.ArrayList;
 
+/* Quicksort Algorithm. */
 class Quicksort {
 
+	/* Return arrays of size <= 1 (sorted). Else, pivot at the middle of the
+	   list. Copy smaller elements in less; larger elements into greater.
+	   Recursive sort left and right halves and merge results into a single
+	   list.
+	*/
 	public static List<Edge> quicksort(List<Edge> list) {
 
 		if (list.size() <= 1) {
@@ -26,7 +32,9 @@ class Quicksort {
 		return concatenate(quicksort(less), pivot, quicksort(greater), list);
 	}
 
-	public static List<Edge> concatenate(List<Edge> l1, Edge l2, List<Edge> l3, List<Edge> l) {
+	/* Uses java.util functionality to merge lists. */
+	public static List<Edge> concatenate(List<Edge> l1, Edge l2,
+										 	List<Edge> l3, List<Edge> l) {
 		l.clear();
 		l.addAll(l1);
 		l.add(l2);

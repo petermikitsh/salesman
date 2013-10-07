@@ -7,6 +7,7 @@ class DisjointSet {
 
     private int[] array;
 
+    /* Constructor. */
     public DisjointSet(int n) {
     	array = new int[n];
     	for (int i = 0; i < array.length; i++)
@@ -23,7 +24,7 @@ class DisjointSet {
     	}
     }
 
-    /* Joins two arrays */
+    /* Joins two arrays. */
     public void union (int r1, int r2) {
     	if (array[r2] < array[r1]) {
     		array[r1] = r2;  

@@ -9,10 +9,12 @@ class Logger {
 	private int n;
   private static DecimalFormat df = new DecimalFormat("0.00");
 
+  /* Constructor. */
 	public Logger(String[] args) {
 		checkErrorConditions(args);
 	}
 
+  /* Fail early by checking error conditions from Project specifications. */
   private void checkErrorConditions(String[] args) {
 
     try {
@@ -42,6 +44,7 @@ class Logger {
     }
   }
 
+  /* Prints graph vertex names with associated cartesian points. */
 	public void logCoordinates(LinkedHashMap<Integer,Integer> vertices) {
 		if (n <= 10) {
 
@@ -58,6 +61,7 @@ class Logger {
 		}
 	}
 
+  /* Prints an adjacency matrix, with row and column labels. */
 	public void logAdjacencyMatrix(double[][] adjMtrx) {
     if (n <= 10) {
       System.out.printf("Adjacency matrix of graph weights:\n\n\t");
@@ -78,6 +82,7 @@ class Logger {
     }
   }
 
+  /* Prints the optimal solution distance and path traversal. */
 	public void logOptimalPath(double distance, List<Integer> path) {
     System.out.printf("\nDistance using greedy: %s for ", df.format(distance));
     for (Integer i : path)
@@ -85,10 +90,12 @@ class Logger {
     System.out.println("");
   }
 
+  /* Prints the runtime. */
 	public void logRuntime(long time) {
     System.out.printf("Runtime for greedy TSP   : %s milliseconds\n", time);
   }
 
+  /* Prints ordered list of edges from greedy tour. */
   public void logEdgeTour(List<Edge> tour) {
     if (n <= 10) {
       System.out.println("Edges of tour from greedy graph:");
