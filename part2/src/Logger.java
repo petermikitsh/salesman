@@ -1,6 +1,7 @@
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 class Logger {
@@ -77,13 +78,23 @@ class Logger {
     }
   }
 
-	public void logOptimalPath(double distance, ArrayList<Integer> path) {
-    System.out.printf("\nOptimal distance: %s for path \n",
-      df.format(distance));
+	public void logOptimalPath(double distance, List<Integer> path) {
+    System.out.printf("\nDistance using greedy: %s for ", df.format(distance));
+    for (Integer i : path)
+      System.out.printf("%d ", i);
+    System.out.println("");
   }
 
 	public void logRuntime(long time) {
-    System.out.printf("Runtime for optimal TSP   : %s milliseconds\n", time);
+    System.out.printf("Runtime for greedy TSP   : %s milliseconds\n", time);
+  }
+
+  public void logEdgeTour(List<Edge> tour) {
+    if (n <= 10) {
+      System.out.println("Edges of tour from greedy graph:");
+      for (Edge e : tour)
+        System.out.printf("%d %d weight = %s\n", e.column, e.row, df.format(e.getWeight()));
+      }
   }
 
 }

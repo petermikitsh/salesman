@@ -17,15 +17,19 @@ class Edge implements Comparable<Edge> {
 	public int compareTo(Edge that) {
         int value1 = Double.compare(g.getWeight(row,column), that.g.getWeight(that.row,that.column));
         if (value1 == 0) {
-            int value2 = this.row - that.row;
+            int value2 = this.column - that.column;
             if (value2 == 0) {
-                return this.column - that.column;
+                return this.row - that.row;
             } else {
                 return value2;
             }
         } else {
             return value1;
         }
+    }
+
+    public double getWeight() {
+    	return g.getWeight(row, column);
     }
 
 }
