@@ -29,6 +29,11 @@ class BinaryHeap {
 
   /* parent and child: heap indices. */
   private void swap(int parent, int child) {
+
+    
+    Key p = heap.get(parent);
+    Key c = heap.get(child);
+
     /* parent and child swap key locations in heap */
     Key tmp = heap.get(parent);
     heap.set(parent, heap.get(child));
@@ -43,22 +48,23 @@ class BinaryHeap {
     loc[childName] = temp;
   }
 
-  /* k: index. */
+  /* k: index. Bottom, up. */
   private void swim(int i) {
     int child = i;
-    int parent = child/2;
-    while (child > 1 && heap.get(child).compareTo(heap.get(parent)) > 0) {
-      swap(parent, child);
-      child /= 2;
+    // System.out.println("Child = " + child);
+    while (child > 1 && heap.get(child).compareTo(heap.get(child/2)) > 0) {
+      swap(child/2, child);
+      child = child/2;
+      // System.out.println("Child = " + child);
     }
   }
 
-  /* k: index. */ 
+  /* k: index. Top, down. */ 
   private void sink(int k) {
     int parent = k;
     int n = heap.size() - 1;
     while ((2 * parent) < n) {
-      int child = (2 * parent) - 1;
+      int child = (2 * parent);
       if (child < n && heap.get(child).compareTo(heap.get(child+1)) < 0)
         child++;
       if (heap.get(parent).compareTo(heap.get(child)) >= 0)
@@ -93,7 +99,7 @@ class BinaryHeap {
 
   /* Update a node iff it has a lower priority. */
   private void update(Key key) {
-    if (heap.get(loc[key.name()]).compareTo(key) > 0) {
+    if (key.compareTo(heap.get(loc[key.name()])) > 0) {
       heap.set(loc[key.name()], key);
       swim(loc[key.name()]);
     }
@@ -105,6 +111,15 @@ class BinaryHeap {
     } else {
       update(key);
     }
+  }
+
+  public String toString() {
+    String string = "[";
+    for (Key k : heap) {
+      string += k.toString();
+    }
+    string += "]";
+    return string;
   }
 
 }

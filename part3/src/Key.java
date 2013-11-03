@@ -34,7 +34,11 @@ class Key implements Comparable<Key> {
   }
 
   public int compareTo(Key that) {
-    return ((Double) this.weight).compareTo(that.weight());
+    return -1 * ((Double) this.weight).compareTo(that.weight());
+  }
+
+  public String toString() {
+    return String.format("{"/*%d | %d | **/ + "%f} ", /*name, to, */weight);
   }
 
 }
