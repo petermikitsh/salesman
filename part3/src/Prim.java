@@ -4,23 +4,20 @@
 
 class Prim {
 
+  /* Fringe implemented as a minimum, binary heap. Minimum spanning tree stored
+   * in graph as boolean values.
+   */
   public static void prim(Graph g) {
     BinaryHeap fringe = new BinaryHeap(g.getMatrix().length);
     for (Key key : g.neighbors(0)) {
-      // System.out.println("Adding key to fringe: " + key);
       fringe.addOrUpdate(key);
-      // System.out.println("Fringe: " + fringe);
     }
-    // System.out.println("[SRT] Fringe: " + fringe);
     while (!fringe.empty()) {
       Key edge = fringe.remove();
-      // System.out.println("[DEL] Fringe: " + fringe);
-      
       g.addToMst(edge);
       for (Key neighbor : g.neighbors(edge.name())) {
-        if (!g.hasNode(neighbor.name())) {
+        if (g.notInMST(neighbor.name())) {
           fringe.addOrUpdate(neighbor);
-          // System.out.println("[ADD] Fringe: " + fringe);
         }
       }
     }

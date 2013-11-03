@@ -9,8 +9,13 @@ import java.util.Set;
 */
 class Graph {
 
+	/* Values are weights. */
 	private double[][] adjMatrix;
+
+	/* True iff the edge is in the MST */
 	private boolean[][] mst;
+	
+	/* Key: node in traversal. Value: parent. */
 	private LinkedHashMap<Integer,Integer> traversal;
 
 	/* Initializes the Graph with an adjacency matrix of size n. */
@@ -45,13 +50,13 @@ class Graph {
 		mst[key.to()][key.name()] = true;
 	}
 
-	public boolean hasNode(int node) {
-		boolean exists = false;
+	public boolean notInMST(int node) {
+		boolean missing = true;
 		for (int i = 0; i < mst.length; i++) {
 			if (mst[node][i])
-				exists = true;
+				missing = false;
 		}
-		return exists;
+		return missing;
 	}
 
 	public double cost() {
@@ -74,6 +79,7 @@ class Graph {
 		return traversal;
 	}
 
+	/* Recursively process the node, then it's children in sorted order. */
 	private void preorder(int id, int parent) {
 		traversal.put(id,parent);
 		for (Integer neighbor : mstneighbors(id)) {
@@ -81,6 +87,7 @@ class Graph {
 		}
 	}
 
+	/* Find a node's neighbors in the adjacency matrix. Node specified by ID. */
 	private List<Integer> mstneighbors(int id) {
 		List<Integer> neighbors = new ArrayList<Integer>();
 		for (int i = 1; i < adjMatrix.length; i++) {
@@ -91,15 +98,8 @@ class Graph {
 		return neighbors;
 	}
 
-
-	public double mstweight() {	
-		double weight = 0;
-		for (int i = 0; i < traversal.size()-2; i++) {
-			weight += adjMatrix[i][i+1];
-		}
-		return weight;
-	}
-
+	/* Distance calculation: Iterate the traversal keys, adding the edge
+	   weight from the i and i+1th elements. */
 	public double distance() {
 		double weight = 0;
 		List<Integer> list = new ArrayList(traversal.keySet());

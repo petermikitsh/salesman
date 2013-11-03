@@ -51,11 +51,9 @@ class BinaryHeap {
   /* k: index. Bottom, up. */
   private void swim(int i) {
     int child = i;
-    // System.out.println("Child = " + child);
     while (child > 1 && heap.get(child).compareTo(heap.get(child/2)) > 0) {
       swap(child/2, child);
       child = child/2;
-      // System.out.println("Child = " + child);
     }
   }
 
@@ -105,6 +103,7 @@ class BinaryHeap {
     }
   }
 
+  /* To simplify client use of the heap. */
   public void addOrUpdate(Key key) {
     if (loc[key.name()] == -1) {
       add(key);
