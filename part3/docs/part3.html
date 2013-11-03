@@ -1,0 +1,127 @@
+<HTML>
+<HEAD>
+  <TITLE>Minimum Spanning Tree Traveling Salesman Problem</TITLE>
+</HEAD>
+<BODY BGCOLOR="#f6ffff">
+<DIV style="text-align: center;">
+  <DIV style="text-align: center;">
+    <H1>
+      CSCI-261 Programming Project
+    </H1>
+    <H1>
+      Minimum Spanning Tree Traveling Salesman Problem
+    </H1>
+    <H2>
+      Part 3 Due: Sunday, November 3<SUP>rd</SUP>, 2013 by 11:59:00pm
+    </H2>
+</DIV>
+</DIV>
+  
+<HR/>
+
+<H2>
+  Program Requirements
+</H2>
+<P>Generate an approximately optimal tour by constructing the minimum spanning tree of the complete graph. Compute the cost of the approximate tour.  If n <= 10 print out the list of X-Y coordinates, the graph as an adjacency matrix of Euclidean weights, the minimum spanning tree used to find the approximate tour, the total weight of the minimum spanning tree, and the parent of each vertex after a pre-order traversal of the minimum spanning tree. For all values of n print out the total distance, the tour found, and the runtime for the algorithm. 
+
+<P> For this implementation, you must use <b>Prim's</b> algorithm with a <b>priority queue</b> implemented as a <b>binary heap</b>. Note that when considering whether to update the priority queue, do not update the value in the priority queue if the edge weight under consideration is greater than or equal to the current weight (priority) in the queue (only update the value if the edge weight is less than the current weight). For the heap implementation, no swaps for equal values of parent and children. If the children are equal to one another and less than the parent, then swap the parent with the left child. Once you have the minimum spanning tree, you can perform a pre-order traversal to get the pre-order number for each vertex. A TSP tour can be constructed by connecting an edge from the vertex with pre-order number <i>i</i> to the vertex with pre-order number <i>i+1</i>, for all <i>i</i>. This tour is guaranteed to be at most twice the distance of the optimal tour. 
+
+<P>As in the last part, if you modify your Graph data structure for this part of the project, it must still work correctly with the other parts of this project. In any case, you must re-submit your Graph data structure, as well as all other classes that your MstTSP class uses.     
+<HR/>
+
+<H2>
+  Sample Output
+</H2>
+ 
+<P>Below is an example of what the output should look like, assuming the program is run with n = 5 and seed = 100000. Your output should look identical to this output, including spacing and decimal precision, but not including the runtime value.  You can check your output for correct formatting by saving this sample <a href="mst">output file</a>, generating your own output file by running your program, and then running the UNIX <code>diff</code> command to compare your output with the sample:
+
+<PRE>
+% java MstTSP 5 100000 > output
+% diff -w output mst
+</PRE>
+
+If nothing prints to the screen after this command other than the runtimes, then your output is formatted correctly.
+
+<P>Note that your program will be tested on multiple values of n and seed not just the values shown here, so be sure to fully test your program, including all error conditions. Note also that tours always begin and end with vertex 0.  For the pre-order traversal, the traversal should begin at vertex 0, and consider the vertices in numerical order when there is a choice.  
+<PRE>
+% java MstTSP 5 100000
+X-Y Coordinates:
+v0: (2,2) v1: (0,1) v2: (4,1) v3: (3,0) v4: (1,3) 
+
+Adjacency matrix of graph weights:
+
+      0      1      2      3      4
+
+0   0.00   2.24   2.24   2.24   1.41  
+
+1   2.24   0.00   4.00   3.16   2.24  
+
+2   2.24   4.00   0.00   1.41   3.61  
+
+3   2.24   3.16   1.41   0.00   3.61  
+
+4   1.41   2.24   3.61   3.61   0.00  
+
+Minimum Spanning Tree:
+Adjacency matrix of graph weights:
+
+      0      1      2      3      4
+
+0   0.00   2.24   2.24   0.00   1.41  
+
+1   2.24   0.00   0.00   0.00   0.00  
+
+2   2.24   0.00   0.00   1.41   0.00  
+
+3   0.00   0.00   1.41   0.00   0.00  
+
+4   1.41   0.00   0.00   0.00   0.00  
+
+Total weight of mst: 7.30
+
+Pre-order traversal: 
+Parent of 0 is -1
+Parent of 1 is 0
+Parent of 2 is 0
+Parent of 3 is 2
+Parent of 4 is 0
+
+Distance using mst: 12.67 for path 0 1 2 3 4 0 
+Runtime for Mst TSP   : 0 milliseconds
+
+</PRE>
+
+<P> Below is an example of what the output should look like for n = 13 and seed = 100000:    
+<PRE>
+% java MstTSP 13 100000
+
+Distance using mst: 56.79 for path 0 7 5 10 2 9 6 11 1 3 4 8 12 0
+Runtime for Mst TSP   : 0 milliseconds
+
+</PRE>
+<HR/>
+
+<H2>
+  Error Conditions
+</H2>
+<OL>                                                                           
+<LI>Missing one or both command line arguments:</LI>                           
+<UL><LI><CODE>Usage: java MstTSP n seed</CODE></LI></UL>                    
+<LI>One or both command line arguments is not an integer:</LI>                
+<UL><LI><CODE>Command line args must be integers</CODE></LI></UL>             
+<LI>Value of n is less than 1:</LI>                                           
+<UL><LI><CODE>Number of vertices must be greater than 0</CODE></LI></UL>       
+</OL>                                                                        
+                                                                          
+<P>Your program should print the error message to standard output (not standard error) and terminate upon any of these error conditions. No other error condition will be tested for.            
+<HR/>
+
+<H2>
+  Submission
+</H2>
+
+<P>When you have your program working, submit your source code to the MyCourses dropbox called <b>Project 3</b> before 11:59:00pm on the date given at the top of this write-up.
+
+</BODY>
+
+</HTML>
