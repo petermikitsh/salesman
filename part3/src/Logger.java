@@ -4,7 +4,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-/** Logger
+/** Logger.java
   * author: Peter Mikitsh pam3961
 **/
 class Logger {

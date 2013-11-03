@@ -11,7 +11,6 @@ class Prim {
       fringe.addOrUpdate(key);
     }
     while (!fringe.empty()) {
-      System.out.println("fringe has stuff");
       Key edge = fringe.remove();
       g1.addEdge(edge);
       for (Key neighbor : g0.neighbors(edge.name())) {

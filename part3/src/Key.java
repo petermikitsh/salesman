@@ -1,5 +1,4 @@
-/** Key.java
-  * A comparable graph edge.
+/** Key: A comparable graph edge.
   * author: peter mikitsh pam3961
 **/
 class Key implements Comparable<Key> {

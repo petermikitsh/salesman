@@ -19,7 +19,7 @@ class BinaryHeap {
      n: number of nodes in graph.
   */
   public BinaryHeap(int n) {
-    heap = new ArrayList<Key>();
+    heap = new ArrayList<Key>(n);
     heap.add(new Key(-1, -1, -1));
     loc = new int[n];
     for (int i = 0; i < n; i++) {
@@ -34,14 +34,6 @@ class BinaryHeap {
     heap.set(parent, heap.get(child));
     heap.set(child, tmp);
 
-    // System.out.println("swap:: loc_init[]: " + Arrays.toString(loc));
-
-    // System.out.println("swap:: parent: " + parent);
-    // System.out.println("swap:: child: " + child);
-
-    // System.out.println("swap:: loc[heap.get(parent).name()]: " + heap.get(parent).name());
-    // System.out.println("swap:: loc[heap.get(child).name()]: " + heap.get(child).name());
-
     int parentName = heap.get(parent).name();
     int childName = heap.get(child).name();
 
@@ -49,8 +41,6 @@ class BinaryHeap {
     int temp = loc[parentName];
     loc[parentName] = loc[childName];
     loc[childName] = temp;
-
-    // System.out.println("swap:: loc[]: " + Arrays.toString(loc));
   }
 
   /* k: index. */
@@ -65,14 +55,10 @@ class BinaryHeap {
 
   /* k: index. */ 
   private void sink(int k) {
-    // System.out.println("k: " + k);
     int parent = k;
     int n = heap.size() - 1;
     while ((2 * parent) < n) {
       int child = (2 * parent) - 1;
-      // System.out.println("parent: " + parent);
-      // System.out.println("child: " + child);
-      // System.out.println("size:" + heap.size());
       if (child < n && heap.get(child).compareTo(heap.get(child+1)) < 0)
         child++;
       if (heap.get(parent).compareTo(heap.get(child)) >= 0)
@@ -85,25 +71,19 @@ class BinaryHeap {
   /* Inserts the key in the heap. */
   private void add(Key key) {
     heap.add(key);
-    loc[key.name()] = heap.size()-1;
-    swim(heap.size()-1);
-    // System.out.println("add:: loc[]: " + Arrays.toString(loc));
+    int n = heap.size() - 1;
+    loc[key.name()] = n;
+    swim(n);
   }
 
   /* Removes the root and returns it. */
   public Key remove() {
-    // System.out.println("Remove");
     int n = heap.size() - 1;
     Key key = heap.get(1);
-    //System.out.println("remove:: loc[]: " + Arrays.toString(loc));
-    // System.out.println("remove#swap1n:: n: " + n);
     swap(1, n);
-    // System.out.println("remove#swap:: loc[]: " + Arrays.toString(loc));
-    //loc[heap.get(n).name()] = n;
     heap.remove(n);
     loc[key.name()] = -1;
     sink(1);
-    // System.out.println("remove#remove:: loc[]: " + Arrays.toString(loc));
     return key;
   }
 
@@ -113,20 +93,16 @@ class BinaryHeap {
 
   /* Update a node iff it has a lower priority. */
   private void update(Key key) {
-    // System.out.println("Update::Key: " + key.name());
     if (heap.get(loc[key.name()]).compareTo(key) > 0) {
       heap.set(loc[key.name()], key);
       swim(loc[key.name()]);
     }
-    // System.out.println("update:: loc[]: " + Arrays.toString(loc));
   }
 
   public void addOrUpdate(Key key) {
     if (loc[key.name()] == -1) {
       add(key);
     } else {
-      // System.out.println("addOrUpdate::loc[key.name()]: " + loc[key.name()]);
-      // System.out.println("addOrUpdate:: loc[]: " + Arrays.toString(loc));
       update(key);
     }
   }
