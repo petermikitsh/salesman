@@ -4,10 +4,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-/* Logger
-
-   author: Peter Mikitsh pam3961
-*/
+/** Logger
+  * author: Peter Mikitsh pam3961
+**/
 class Logger {
 
 	private int n;
@@ -92,10 +91,10 @@ class Logger {
   }
 
   /* Prints the optimal solution distance and path traversal. */
-	public void logOptimalPath(double distance, List<Integer> path) {
-    System.out.printf("\nDistance using mst: %s for path ", df.format(distance));
-    for (Integer i : path)
-      System.out.printf("%d ", i);
+	public void logOptimalPath() {
+    System.out.printf("\nDistance using mst: %s for path ", df.format(0));
+    // for (Integer i : path)
+    //   System.out.printf("%d ", i);
     System.out.println("");
   }
 
@@ -105,11 +104,11 @@ class Logger {
   }
 
   /* Prints ordered list of edges from greedy tour. */
-  public void logEdgeTour(List<Edge> tour) {
+  public void logEdgeTour() {
     if (n <= 10) {
       System.out.println("Pre-order traversal: ");
-      for (Edge e : tour)
-        System.out.printf("%d %d weight = %s\n", e.column, e.row, df.format(e.getWeight()));
+      // for (Edge e : tour)
+      //   System.out.printf("%d %d weight = %s\n", e.column, e.row, df.format(e.getWeight()));
       }
   }
 

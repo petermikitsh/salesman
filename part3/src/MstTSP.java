@@ -4,15 +4,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-/* GreedyTSP.java
-
-   author: Peter Mikitsh pam3961
-*/
+/** MstTSP.java
+  * Approximate solution for Traveling Salesman Problem (TSP)
+  * using a Minimum Spanning Tree.
+  * author: Peter Mikitsh pam3961
+**/
 class MstTSP {
 
   private static LinkedHashMap<Integer,Integer> vertices;
   private static Graph gInitial;
-  private static Graph gGreedy;
+  private static Graph gMST;
   private static Logger logger;
   private static int n;
   private static int seed;
@@ -28,21 +29,19 @@ class MstTSP {
     seed = (int) Integer.parseInt(args[1]);
     vertices = new LinkedHashMap<Integer,Integer>(n);
     gInitial = new Graph(n);
-    gGreedy = new Graph(n);
-    gGreedy.initEmptyWeights();
+    gMST = new Graph(n);
     
     long startTime = System.currentTimeMillis();
     generateVertices();
     generateAdjacencyMatrix();
-    generateEdges();
-    greedyAlgorithm();
+    gMST = Prim.prim(gInitial);
     long endTime = System.currentTimeMillis();
 
     logger.logCoordinates(vertices);
     logger.logAdjacencyMatrix(gInitial.getMatrix());
-    logger.logAdjacencyMatrixMST(gGreedy.getMatrix());
-    logger.logEdgeTour(gGreedy.getEdges());
-    logger.logOptimalPath(gGreedy.calculateDistance(), gGreedy.dfsTraversal());
+    logger.logAdjacencyMatrixMST(gMST.getMatrix());
+    logger.logEdgeTour();
+    logger.logOptimalPath();
     logger.logRuntime(endTime - startTime);
     
 	}
@@ -78,20 +77,6 @@ class MstTSP {
         gInitial.addEdgeWeight(x, y, weight);
       }
     }
-  }
-
-  /* Store the edges in an array, to make my life simpler. */
-  private static void generateEdges() {
-    for (int row = 0; row <= n-1; row++) {
-      for (int column = 0; column <= row-1; column++) {
-        gInitial.addEdge(row, column);
-      }
-    }
-  }
-
-  /* Performs a greedy, approximately optimal tour. */
-  public static void greedyAlgorithm() {
-
   }
 
   /* Use the distance formula to find the distance between to Cartesian points (vertices) */
