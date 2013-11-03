@@ -12,8 +12,7 @@ import java.util.Random;
 class MstTSP {
 
   private static LinkedHashMap<Integer,Integer> vertices;
-  private static Graph gInitial;
-  private static Graph gMST;
+  private static Graph g;
   private static Logger logger;
   private static int n;
   private static int seed;
@@ -28,20 +27,21 @@ class MstTSP {
     n = (int) Integer.parseInt(args[0]);
     seed = (int) Integer.parseInt(args[1]);
     vertices = new LinkedHashMap<Integer,Integer>(n);
-    gInitial = new Graph(n);
+    g = new Graph(n);
     
     long startTime = System.currentTimeMillis();
     generateVertices();
     generateAdjacencyMatrix();
-    Graph gMST = Prim.prim(gInitial);
+    Prim.prim(g);
+    g.preorder();
     long endTime = System.currentTimeMillis();
 
     logger.logCoordinates(vertices);
-    logger.logAdjacencyMatrix(gInitial.getMatrix());
-    logger.logAdjacencyMatrixMST(gMST.getMatrix());
-    logger.logMSTWeight(gMST.cost());
-    logger.logEdgeTour();
-    logger.logOptimalPath();
+    logger.logAdjacencyMatrix(g.getMatrix(), g.mst(), false);
+    logger.logAdjacencyMatrix(g.getMatrix(), g.mst(), true);
+    logger.logMSTWeight(g.cost());
+    logger.logEdgeTour(g.traversal());
+    logger.logOptimalPath(g.distance(), g.traversal());
     logger.logRuntime(endTime - startTime);
     
 	}
@@ -74,7 +74,7 @@ class MstTSP {
     for (int x = 0; x < entries.size(); x++) {
       for (int y = 0; y < entries.size(); y++) {
         double weight = calculateVertexDistance(entries.get(x), entries.get(y));
-        gInitial.addEdgeWeight(x, y, weight);
+        g.addEdgeWeight(x, y, weight);
       }
     }
   }

@@ -65,8 +65,10 @@ class Logger {
 	}
 
   /* Prints an adjacency matrix, with row and column labels. */
-	public void logAdjacencyMatrix(double[][] adjMtrx) {
+	public void logAdjacencyMatrix(double[][] adjMtrx, boolean[][] mst, boolean mstOnly) {
     if (n <= 10) {
+      if (mstOnly)
+        System.out.println("Minimum Spanning Tree:");
       System.out.printf("Adjacency matrix of graph weights:\n\n\t");
 
       int i;
@@ -77,7 +79,9 @@ class Logger {
 
       for (i = 0; i < adjMtrx.length; i++) {
         System.out.printf("%d\t", i);
-        for (double distance : adjMtrx[i]) {
+        for (int j = 0; j < adjMtrx.length; j++) {
+          double distance = adjMtrx[i][j];
+          if (mstOnly && !mst[i][j]) distance = 0;
           System.out.printf("%s\t", df.format(distance));
         }
         System.out.println("\n");
@@ -85,13 +89,6 @@ class Logger {
     }
   }
 
-  /* Prints MST matrix with header */
-  public void logAdjacencyMatrixMST(double[][] adjMtrx) {
-    if (n <= 10) {
-      System.out.println("Minimum Spanning Tree:");
-      logAdjacencyMatrix(adjMtrx);
-    }
-  }
 
   /* Prints MST Weight. */
   public void logMSTWeight(double weight) {
@@ -101,11 +98,11 @@ class Logger {
   }
 
   /* Prints the optimal solution distance and path traversal. */
-	public void logOptimalPath() {
-    System.out.printf("\nDistance using mst: %s for path ", df.format(0));
-    // for (Integer i : path)
-    //   System.out.printf("%d ", i);
-    System.out.println("");
+	public void logOptimalPath(double distance, LinkedHashMap<Integer,Integer> path) {
+    System.out.printf("\nDistance using mst: %s for path ", df.format(distance));
+     for (Integer i : path.keySet())
+       System.out.printf("%d ", i);
+    System.out.printf("0\n");
   }
 
   /* Prints the runtime. */
@@ -114,12 +111,13 @@ class Logger {
   }
 
   /* Prints ordered list of edges from greedy tour. */
-  public void logEdgeTour() {
+  public void logEdgeTour(LinkedHashMap<Integer,Integer> tour) {
     if (n <= 10) {
       System.out.println("Pre-order traversal: ");
-      // for (Edge e : tour)
-      //   System.out.printf("%d %d weight = %s\n", e.column, e.row, df.format(e.getWeight()));
+      for (Map.Entry<Integer,Integer> entry : tour.entrySet()) {
+        System.out.printf("Parent of %d is %d\n", entry.getKey(), entry.getValue());
       }
+    }
   }
 
 }
