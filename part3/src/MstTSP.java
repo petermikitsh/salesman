@@ -29,17 +29,17 @@ class MstTSP {
     seed = (int) Integer.parseInt(args[1]);
     vertices = new LinkedHashMap<Integer,Integer>(n);
     gInitial = new Graph(n);
-    gMST = new Graph(n);
     
     long startTime = System.currentTimeMillis();
     generateVertices();
     generateAdjacencyMatrix();
-    gMST = Prim.prim(gInitial);
+    Graph gMST = Prim.prim(gInitial);
     long endTime = System.currentTimeMillis();
 
     logger.logCoordinates(vertices);
     logger.logAdjacencyMatrix(gInitial.getMatrix());
     logger.logAdjacencyMatrixMST(gMST.getMatrix());
+    logger.logMSTWeight(gMST.cost());
     logger.logEdgeTour();
     logger.logOptimalPath();
     logger.logRuntime(endTime - startTime);

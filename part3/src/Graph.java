@@ -47,5 +47,15 @@ class Graph {
 		return exists;
 	}
 
+	public double cost() {
+		double cost = 0;
+		for (int i = 0; i < adjMatrix.length; i++) {
+			for (int j = 0; j < i; j++) {
+				cost += adjMatrix[i][j];
+			}
+		}
+		return cost;
+	}
+
 
 }

@@ -85,9 +85,19 @@ class Logger {
     }
   }
 
+  /* Prints MST matrix with header */
   public void logAdjacencyMatrixMST(double[][] adjMtrx) {
-    System.out.println("Minimum Spanning Tree:");
-    logAdjacencyMatrix(adjMtrx);
+    if (n <= 10) {
+      System.out.println("Minimum Spanning Tree:");
+      logAdjacencyMatrix(adjMtrx);
+    }
+  }
+
+  /* Prints MST Weight. */
+  public void logMSTWeight(double weight) {
+    if (n <= 10) {
+      System.out.printf("\nTotal weight of mst: %s\n\n", df.format(weight));
+    }
   }
 
   /* Prints the optimal solution distance and path traversal. */
