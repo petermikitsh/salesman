@@ -1,0 +1,124 @@
+<HTML>
+<HEAD>
+  <TITLE>Bitonic Traveling Salesman Problem</TITLE>
+</HEAD>
+<BODY BGCOLOR="#f6ffff">
+<DIV style="text-align: center;">
+  <DIV style="text-align: center;">
+    <H1>
+      CSCI-261 Programming Project
+    </H1>
+    <H1>
+      Bitonic Traveling Salesman Problem
+    </H1>
+    <H2>
+      Part 4 Due: Sunday, December 8<SUP>th</SUP>, 2013 by 11:59:00pm
+    </H2>
+</DIV>
+</DIV>
+  
+<HR/>
+
+<H2>
+  Program Requirements
+</H2>
+<P>Generate an approximately optimal tour by finding the optimal bitonic tour using a dynamic programming approach. Compute the cost of the approximate tour. If N is less than or equal to 10 print out the list of X-Y coordinates, the graph as an adjacency matrix, the X-Y coordinates sorted in order of increasing X-coordinate, the L-Table, and the N-table. For all values of N print out the total distance, the tour found, and the runtime for the algorithm.
+
+<P>Recall from our classroom discussion that a bitonic tour is one that starts at the leftmost vertex of the graph (assuming the edge weights are the Euclidean distance between any two vertices), then goes strictly left to right to the rightmost vertex, and then goes strictly right to left back to the starting vertex. The algorithm for finding the optimal bitonic tour on a Euclidean graph has polynomial time complexity. Essentially, the algorithm sorts the list of vertices in order of increasing x-coordinate, and then scans the list from smallest to largest, maintaining optimal possibilities for the two parts of the tour. The algorithm assumes that no two vertices have the same x-coordinate.
+
+<HR/>
+
+<H2>
+  Sample Output
+</H2>
+ 
+<P>Below is an example of what the output should look like, assuming the program is run with N = 5 and seed = 100000. Your output should look identical to this output, including spacing and decimal precision, but not including the runtime value. You can check your output for correct formatting by saving this sample <a href="bitonic">output file</a>, generating your own output file by running your program, and then running the UNIX <code>diff</code> command to compare your output with the sample:
+
+<PRE>
+% java BitonicTSP 5 100000 > output
+% diff -w output bitonic
+</PRE>
+
+If nothing prints to the screen after this command other than the runtimes, then your output is formatted correctly.
+
+<P>Note that your program will be tested on multiple values of N and seed not just the values shown here, so be sure to fully test your program, including all error conditions.  Note also that tours always begin and end with vertex 0, and always proceed in a clockwise fashion, starting from vertex 0. 
+
+<PRE>
+% java BitonicTSP 5 100000
+X-Y Coordinates:
+v0: (2,2) v1: (0,1) v2: (4,1) v3: (3,0) v4: (1,3) 
+
+Adjacency matrix of graph weights:
+
+      0      1      2      3      4
+
+0   0.00   2.24   2.24   2.24   1.41  
+
+1   2.24   0.00   4.00   3.16   2.24  
+
+2   2.24   4.00   0.00   1.41   3.61  
+
+3   2.24   3.16   1.41   0.00   3.61  
+
+4   1.41   2.24   3.61   3.61   0.00  
+
+Sorted X-Y Coordinates:
+v1: (0,1) v4: (1,3) v0: (2,2) v3: (3,0) v2: (4,1) 
+
+L-Table:
+ 0.00  2.24  3.65  5.89  7.30 
+ 0.00  0.00  4.47  6.71  8.12 
+ 0.00  0.00  0.00  6.81  8.23 
+ 0.00  0.00  0.00  0.00  9.05 
+ 0.00  0.00  0.00  0.00  0.00 
+
+N-Table:
+-1  0  1  2  3 
+-1 -1  0  2  3 
+-1 -1 -1  0  3 
+-1 -1 -1 -1  2 
+-1 -1 -1 -1 -1 
+
+Distance using bitonic: 10.46 for path 0 2 3 1 4 0 
+Runtime for bitonic TSP   : 2 milliseconds
+
+</PRE>
+
+<P>Below is an example of what the output should look like for n = 13 and seed = 100000: 
+<PRE>
+% java BitonicTSP 13 100000
+
+Distance using bitonic: 44.03 for path 0 9 6 2 10 7 5 1 12 3 4 8 11 0
+Runtime for bitonic TSP   : 10 milliseconds
+
+</PRE>
+
+<HR/>
+
+<H2>
+  Error Conditions
+</H2>
+
+<OL>
+<LI>Missing one or both command line arguments:</LI>
+<UL><LI><CODE>Usage: java BitonicTSP n seed</CODE></LI></UL>
+<LI>One or both command line arguments is not an integer:</LI>
+<UL><LI><CODE>Command line args must be integers</CODE></LI></UL>
+<LI>Value of n is less than 1:</LI>
+<UL><LI><CODE>Number of vertices must be greater than 0</CODE></LI></UL>
+</OL>
+
+Your program should print the error message to standard output (not standard error) and terminate upon any of these error conditions. No other error condition will be tested for.
+<HR/>
+
+<H2>
+  Submission
+</H2>
+
+<P>When you have your program working, submit your source code to the MyCourses dropbox called <b>Project 4</b> before 11:59:00pm on the date given at the top of this write-up. 
+
+<P>Be sure to complete and submit the project <a href="http://www.cs.rit.edu/~rlc/Courses/Algorithms/Projects/20131/Report/report.html">report</a> to the MyCourses dropbox called <b>Project Report</b> before 11:59:00pm on the date given at the top of the report write-up.
+
+</BODY>
+
+</HTML>
