@@ -97,6 +97,23 @@ class Logger {
     }
   }
 
+  public void logNMatrix(int[][] matrix) {
+    if (n <= 10) {
+      System.out.println("N-Table:");
+      for (int i = 0; i < matrix.length; i++) {
+        for (int j = 0; j < matrix.length; j++) {
+          String space = " ";
+          if (j+1 < matrix.length) {
+            if (matrix[i][j+1] >= 0)
+              space += " ";
+          }
+          System.out.printf("%d%s", matrix[i][j], space);
+        }
+        System.out.println("");
+      }
+    }
+  }
+
 
   /* Prints MST Weight. */
   public void logMSTWeight(double weight) {
