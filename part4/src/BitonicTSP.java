@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.TreeMap;
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.Random;
 class BitonicTSP {
 
   private static Map<Integer,Integer> vUnsorted;
+  private static Map<Integer,Integer> vIndex;
   private static Map<Integer,Integer> vSorted;
   private static Graph g;
   private static Logger logger;
@@ -31,6 +33,7 @@ class BitonicTSP {
     n = (int) Integer.parseInt(args[0]);
     seed = (int) Integer.parseInt(args[1]);
     vUnsorted = new LinkedHashMap<Integer,Integer>(n);
+    vIndex = new LinkedHashMap<Integer,Integer>(n);
     g = new Graph(n);
     b = new Bitonic(n, g);
     
@@ -38,18 +41,17 @@ class BitonicTSP {
     generateVertices();
     sortVertices();
     generateAdjacencyMatrix();
-    Prim.prim(g);
-    g.preorder();
+    // g.preorder();
     b.bitonic();
     long endTime = System.currentTimeMillis();
 
-    logger.logCoordinates(vUnsorted, false);
+    logger.logCoordinates(vUnsorted, null);
     logger.logMatrix(g.getMatrix(), true);
-    logger.logCoordinates(vSorted, true);
+    logger.logCoordinates(vSorted, vIndex);
     logger.logMatrix(b.l(), false);
     logger.logNMatrix(b.n());
     logger.logMSTWeight(g.cost());
-    logger.logOptimalPath(g.distance(), g.traversal());
+    // logger.logOptimalPath(g.distance(), g.traversal());
     logger.logRuntime(endTime - startTime);
     
 	}
@@ -70,6 +72,14 @@ class BitonicTSP {
       else
         vUnsorted.put(x, y);
       
+    }
+
+    int i = 0;
+    Iterator it = vUnsorted.entrySet().iterator();
+    while (it.hasNext()) {
+      Map.Entry pairs = (Map.Entry) it.next();
+      vIndex.put((Integer) pairs.getKey(), i);
+      i++;
     }
   }
 

@@ -48,15 +48,17 @@ class Logger {
   }
 
   /* Prints graph vertex names with associated cartesian points. */
-	public void logCoordinates(Map <Integer,Integer> vertices, boolean sorted) {
+	public void logCoordinates(Map <Integer,Integer> vertices, Map<Integer,Integer> indexMap) {
 		if (n <= 10) {
 
-      if (sorted)
+      if (indexMap != null)
         System.out.print("Sorted ");
   		System.out.println("X-Y Coordinates:");
 
       int index = 0;
       for (Map.Entry<Integer, Integer> entry : vertices.entrySet()) {
+        if (indexMap != null)
+          index = (Integer) indexMap.get(entry.getKey());
         System.out.format("v%d: (%d,%d) ", index, entry.getKey(), entry.getValue());
         index++;
       }
@@ -70,6 +72,9 @@ class Logger {
 	public void logMatrix(double[][] matrix, boolean headers) {
     if (n <= 10) {
       int i;
+      String space = "";
+      if (headers)
+          space += "\n";
 
       if (headers) {
         System.out.println("Adjacency matrix of graph weights:\n");
@@ -92,14 +97,16 @@ class Logger {
           double distance = matrix[i][j];
           System.out.printf("%s\t", df.format(distance));
         }
-        System.out.println("\n");
+
+        System.out.println(space);
+
       }
     }
   }
 
   public void logNMatrix(int[][] matrix) {
     if (n <= 10) {
-      System.out.println("N-Table:");
+      System.out.println("\nN-Table:");
       for (int i = 0; i < matrix.length; i++) {
         for (int j = 0; j < matrix.length; j++) {
           String space = " ";
