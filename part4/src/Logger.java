@@ -48,10 +48,12 @@ class Logger {
   }
 
   /* Prints graph vertex names with associated cartesian points. */
-	public void logCoordinates(Map <Integer,Integer> vertices) {
+	public void logCoordinates(Map <Integer,Integer> vertices, boolean sorted) {
 		if (n <= 10) {
 
-  		System.out.println("Sorted X-Y Coordinates:");
+      if (sorted)
+        System.out.print("Sorted ");
+  		System.out.println("X-Y Coordinates:");
 
       int index = 0;
       for (Map.Entry<Integer, Integer> entry : vertices.entrySet()) {
@@ -64,24 +66,26 @@ class Logger {
 		}
 	}
 
-  /* Prints an adjacency matrix, with row and column labels. */
-	public void logAdjacencyMatrix(double[][] adjMtrx, boolean[][] mst, boolean mstOnly) {
+  /* Prints an adjacency matrix, with row and column headers. */
+	public void logAdjacencyMatrix(double[][] matrix, boolean headers) {
     if (n <= 10) {
-      if (mstOnly)
-        System.out.println("Minimum Spanning Tree:");
-      System.out.printf("Adjacency matrix of graph weights:\n\n\t");
-
       int i;
-      for (i = 0; i < adjMtrx.length; i++) {
-        System.out.printf("  %d\t", i);
-      }
-      System.out.println("\n");
 
-      for (i = 0; i < adjMtrx.length; i++) {
-        System.out.printf("%d\t", i);
-        for (int j = 0; j < adjMtrx.length; j++) {
-          double distance = adjMtrx[i][j];
-          if (mstOnly && !mst[i][j]) distance = 0;
+      if (headers) {
+        System.out.println("Adjacency matrix of graph weights:\n");
+        System.out.printf("\t");
+        for (i = 0; i < matrix.length; i++) {
+          System.out.printf("  %d\t", i);
+        }
+        System.out.println("\n");
+      }
+
+      for (i = 0; i < matrix.length; i++) {
+        if (headers) {
+          System.out.printf("%d\t", i);
+        }
+        for (int j = 0; j < matrix.length; j++) {
+          double distance = matrix[i][j];
           System.out.printf("%s\t", df.format(distance));
         }
         System.out.println("\n");

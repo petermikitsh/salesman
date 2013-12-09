@@ -19,9 +19,10 @@ class Bitonic {
   public Bitonic(int size, Graph g) {
     this.g = g;
     this.size = size;
+    l = new double[size][size];
+    n = new int[size][size];
     for (int row = 0; row < size; row++) {
       for (int col = 0; col < size; col++) {
-        l[row][col] = 0;
         n[row][col] = -1;
       }
     }
