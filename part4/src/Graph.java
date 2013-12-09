@@ -35,7 +35,7 @@ class Graph {
 		return adjMatrix;
 	}
 
-	public double weight(int row, int col) {
+	public double dist(int row, int col) {
 		return adjMatrix[row][col];
 	}
 

@@ -32,15 +32,17 @@ class Bitonic {
     for (int j = 1; j < size; j++) {
       for (int i = 0; i < j; i++) {
         if (i == 0 && j == 1) {
+          l[i][j] = g.dist(i,j);
           n[i][j] = i;
         } else {
           if (j > i+1) {
+            l[i][j] = l[i][j-1] + g.dist(j-1,j);
             n[i][j] = j-1;
           } else {
             l[i][j] = Double.MAX_VALUE;
             for (int k = 0; k < i; k++) {
-              double q = l[k][i];
-              if (q < l[i][k]) {
+              double q = l[k][i] + g.dist(k,j);
+              if (q < l[i][j]) {
                 l[i][j] = q;
                 n[i][j] = k;
               }

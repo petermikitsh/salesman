@@ -44,8 +44,9 @@ class BitonicTSP {
     long endTime = System.currentTimeMillis();
 
     logger.logCoordinates(vUnsorted, false);
-    logger.logAdjacencyMatrix(g.getMatrix(), true);
+    logger.logMatrix(g.getMatrix(), true);
     logger.logCoordinates(vSorted, true);
+    logger.logMatrix(b.l(), false);
     logger.logMSTWeight(g.cost());
     logger.logOptimalPath(g.distance(), g.traversal());
     logger.logRuntime(endTime - startTime);

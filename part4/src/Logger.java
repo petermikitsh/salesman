@@ -67,7 +67,7 @@ class Logger {
 	}
 
   /* Prints an adjacency matrix, with row and column headers. */
-	public void logAdjacencyMatrix(double[][] matrix, boolean headers) {
+	public void logMatrix(double[][] matrix, boolean headers) {
     if (n <= 10) {
       int i;
 
@@ -78,11 +78,15 @@ class Logger {
           System.out.printf("  %d\t", i);
         }
         System.out.println("\n");
+      } else {
+        System.out.println("L-Table:");
       }
 
       for (i = 0; i < matrix.length; i++) {
         if (headers) {
           System.out.printf("%d\t", i);
+        } else {
+          System.out.printf(" ");
         }
         for (int j = 0; j < matrix.length; j++) {
           double distance = matrix[i][j];
