@@ -1,6 +1,6 @@
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.List;
 import java.util.Map;
 
@@ -48,10 +48,10 @@ class Logger {
   }
 
   /* Prints graph vertex names with associated cartesian points. */
-	public void logCoordinates(LinkedHashMap<Integer,Integer> vertices) {
+	public void logCoordinates(Map <Integer,Integer> vertices) {
 		if (n <= 10) {
 
-  		System.out.println("X-Y Coordinates:");
+  		System.out.println("Sorted X-Y Coordinates:");
 
       int index = 0;
       for (Map.Entry<Integer, Integer> entry : vertices.entrySet()) {
@@ -98,7 +98,7 @@ class Logger {
   }
 
   /* Prints the optimal solution distance and path traversal. */
-	public void logOptimalPath(double distance, LinkedHashMap<Integer,Integer> path) {
+	public void logOptimalPath(double distance, Map<Integer,Integer> path) {
     System.out.printf("\nDistance using mst: %s for path ", df.format(distance));
      for (Integer i : path.keySet())
        System.out.printf("%d ", i);
@@ -111,7 +111,7 @@ class Logger {
   }
 
   /* Prints ordered list of edges from greedy tour. */
-  public void logEdgeTour(LinkedHashMap<Integer,Integer> tour) {
+  public void logEdgeTour(Map<Integer,Integer> tour) {
     if (n <= 10) {
       System.out.println("Pre-order traversal: ");
       for (Map.Entry<Integer,Integer> entry : tour.entrySet()) {

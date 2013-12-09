@@ -1,5 +1,6 @@
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
+import java.util.HashMap;
+import java.util.TreeMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -9,9 +10,9 @@ import java.util.Random;
   * using a Minimum Spanning Tree.
   * author: Peter Mikitsh pam3961
 **/
-class MstTSP {
+class BitonicTSP {
 
-  private static LinkedHashMap<Integer,Integer> vertices;
+  private static Map<Integer,Integer> vertices;
   private static Graph g;
   private static Logger logger;
   private static int n;
@@ -26,7 +27,7 @@ class MstTSP {
     logger = new Logger(args);
     n = (int) Integer.parseInt(args[0]);
     seed = (int) Integer.parseInt(args[1]);
-    vertices = new LinkedHashMap<Integer,Integer>(n);
+    vertices = new HashMap<Integer,Integer>(n);
     g = new Graph(n);
     
     long startTime = System.currentTimeMillis();
@@ -38,9 +39,9 @@ class MstTSP {
 
     logger.logCoordinates(vertices);
     logger.logAdjacencyMatrix(g.getMatrix(), g.mst(), false);
-    logger.logAdjacencyMatrix(g.getMatrix(), g.mst(), true);
+    // logger.logAdjacencyMatrix(g.getMatrix(), g.mst(), true);
     logger.logMSTWeight(g.cost());
-    logger.logEdgeTour(g.traversal());
+    // logger.logEdgeTour(g.traversal());
     logger.logOptimalPath(g.distance(), g.traversal());
     logger.logRuntime(endTime - startTime);
     
@@ -63,6 +64,8 @@ class MstTSP {
         vertices.put(x, y);
       
     }
+
+    vertices = new TreeMap<Integer,Integer>(vertices);
   }
 
   /* Fills in the Graph's adjacency matrix with appropriate weights. */

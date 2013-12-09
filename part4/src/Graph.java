@@ -35,6 +35,10 @@ class Graph {
 		return adjMatrix;
 	}
 
+	public double weight(int row, int col) {
+		return adjMatrix[row][col];
+	}
+
 	public List<Key> neighbors(int key) {
 		List<Key> keys = new ArrayList<Key>();
 		for (int i = 0; i < adjMatrix.length; i++) {
